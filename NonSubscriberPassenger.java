@@ -1,6 +1,7 @@
 package org.example;
 
 public class NonSubscriberPassenger extends Passenger {
+    private final static double couponDiscount=0.10;
     private boolean hasDiscountCoupon;
 
     //constructors
@@ -23,14 +24,16 @@ public class NonSubscriberPassenger extends Passenger {
     public void reserveCar(Car car) throws Exception{
         if (car.getMaxCapacity() == 0) {
             throw new Exception("Maximum number of passengers cannot be zero.");
+        }else{
+            this.setReservedCar(car);
+            if (hasDiscountCoupon) {
+                this.setTripCost((car.getRoute().getTripPrice()) - car.getRoute().getTripPrice() * couponDiscount); //%10 discount
+            } else {
+                this.setTripCost(car.getRoute().getTripPrice());
+            }
+            car.setMaxCapacity(car.getMaxCapacity()-1);
         }
 
-        this.setReservedCar(car);
-        if (hasDiscountCoupon) {
-            this.setTripCost((car.getRoute().getTripPrice()) - car.getRoute().getTripPrice() * 0.1); //%10 discount
-        } else {
-            this.setTripCost(car.getRoute().getTripPrice());
-        }
     }
 
     public void printInfo() {

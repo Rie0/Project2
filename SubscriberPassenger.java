@@ -1,7 +1,7 @@
 package org.example;
 
 public class SubscriberPassenger extends Passenger{
-
+    private final static double subscriberDiscount=0.50;
 
     //constructors
     public SubscriberPassenger(String name, String id) {
@@ -13,10 +13,13 @@ public class SubscriberPassenger extends Passenger{
     public void reserveCar(Car car) throws Exception{
         if (car.getMaxCapacity() == 0) {
             throw new Exception("Maximum number of passengers cannot be zero.");
+        }else {
+            this.setReservedCar(car);
+            this.setTripCost(car.getRoute().getTripPrice()*subscriberDiscount); //%50 discount
+           car.setMaxCapacity(car.getMaxCapacity()-1);
         }
 
-        this.setReservedCar(car);
-        this.setTripCost(car.getRoute().getTripPrice()*0.5); //%50 discount
+
     }
 
     public void printInfo() {
